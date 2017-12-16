@@ -81,6 +81,12 @@ var initAppTemplate = function (appName, template, authorName, authorEmail, desc
         write(path.join(appName, 'package.json'), JSON.stringify(packageJson, null, 2));
         mkdir(path.join(appName, 'app-config'), function () {
             request.post('https://allcountjs.com/api/app-template-for-cli-init', {json: packageJson}, function (err, httpResponse, body) {
+                // plese handle errors here
+                if (err) { console.log(err); }
+                /*\
+                 *  Actually SSL certificates is expired than i not able to download template.
+                \*/
+                
                 var fileCounter = 0;
                 body.files.forEach(function (file) {
                     write(path.join(appName, 'app-config', file.fileName), file.content, 0666, function () {
